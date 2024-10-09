@@ -197,11 +197,11 @@
 <section class="hero is-small">
     <div class="hero-body">
         <div class="row is-centered has-text-centered">
-            <h3 class=" is-3 pb-2">Model</h3>
             <div class="col-lg-6">
                 <img src="static/images/model.jpg" alt="Model architecture" class="center-image"/>
             </div>
             <div class="col-lg-6">
+                <h3 class=" is-3 pb-2">Model</h3>
                 <div class="content has-text-justified">
                     <p class="pt-2 ps-lg-4">
                         CoViS-Net consists of four primary components: an image encoder $f_\mathrm{enc}$, a pairwise pose encoder $f_\mathrm{pose}$, a multi-node aggregator $f_\mathrm{agg}$, and a BEV predictor $f_\mathrm{BEV}$.
@@ -214,11 +214,8 @@
             </div>
         </div>
         <div class="row is-centered has-text-centered">
-            <h3 class=" is-3 pb-2">Training</h3>
             <div class="col-lg-6">
-                <img src="static/images/gnll.png" alt="Model architecture" class="center-image"/>
-            </div>
-            <div class="col-lg-6">
+                <h3 class=" is-3 pb-2">Training</h3>
                 <div class="content has-text-justified">
                     <p class="pt-2 ps-lg-4">
                         We train CoViS-Net using supervised learning on data from the Habitat simulator with the HM3D dataset.
@@ -229,6 +226,9 @@
                         By providing uncertainty estimates, the system can make more informed decisions in challenging scenarios.
                     </p>
                 </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="static/images/gnll.png" alt="Model architecture" class="center-image"/>
             </div>
         </div>
     </div>
