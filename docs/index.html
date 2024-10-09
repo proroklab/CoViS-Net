@@ -185,6 +185,48 @@
 </section>
 <!-- End paper abstract -->
 
+<!-- Method -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="row is-centered has-text-centered">
+            <h3 class=" is-3 pb-2">Model</h3>
+            <div class="col-lg-6">
+                <img src="static/images/model.jpg" alt="Model architecture" class="center-image"/>
+            </div>
+            <div class="col-lg-6">
+                <div class="content has-text-justified">
+                    <p class="pt-2 ps-lg-4">
+                        CoViS-Net consists of four primary components: an image encoder $f_\mathrm{enc}$, a pairwise pose encoder $f_\mathrm{pose}$, a multi-node aggregator $f_\mathrm{agg}$, and a BEV predictor $f_\mathrm{BEV}$.
+                        The image encoder uses a pre-trained DinoV2 model with additional layers to generate the embedding $\mathbf{E}_i$ from image $I_i$.
+                        These embeddings are communicated between robots. The pose estimator takes two embeddings $\mathbf{E}_i$ and $\mathbf{E}_j$ as input and predicts pose estimates with uncertainty.
+                        The multi-node aggregator combines the estimated poses with image embeddings from multiple robots and aggregates them into a common representation.
+                        Finally, the BEV predictor generates a bird's-eye-view representation from the aggregated information.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row is-centered has-text-centered">
+            <h3 class=" is-3 pb-2">Training</h3>
+            <div class="col-lg-6">
+                <img src="static/images/gnll.png" alt="Model architecture" class="center-image"/>
+            </div>
+            <div class="col-lg-6">
+                <div class="content has-text-justified">
+                    <p class="pt-2 ps-lg-4">
+                        We train CoViS-Net using supervised learning on data from the Habitat simulator with the HM3D dataset.
+                        This provides a diverse range of photorealistic indoor environments.
+                        Our loss functions include components for pose estimation, uncertainty prediction, and BEV representation accuracy.
+                        CoViS-Net incorporates uncertainty estimation using Gaussian Negative Log Likelihood (GNLL) Loss.
+                        This allows the model to learn and predict aleatoric uncertainty $\hat{\sigma}^2$ from data points $\mu$, which is crucial for downstream robotic applications.
+                        By providing uncertainty estimates, the system can make more informed decisions in challenging scenarios.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Method -->
+
 <!-- Youtube video -->
 <section class="hero is-small is-light">
     <div class="hero-body">
