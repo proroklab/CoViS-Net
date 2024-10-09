@@ -33,8 +33,9 @@
     <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
     <link rel="stylesheet" href="static/css/bulma-slider.min.css">
     <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="static/css/index.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -43,6 +44,14 @@
     <script src="static/js/bulma-carousel.min.js"></script>
     <script src="static/js/bulma-slider.min.js"></script>
     <script src="static/js/index.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
 </head>
 <body>
 
@@ -52,68 +61,73 @@
         <div class="container is-max-desktop">
             <div class="columns is-centered">
                 <div class="column has-text-centered">
-                    <h1 class="title is-1 publication-title">Academic Project Page</h1>
+                    <h1 class="title is-1 publication-title">CoViS-Net: A Cooperative Visual Spatial Foundation Model
+                        for Multi-Robot Applications</h1>
                     <div class="is-size-5 publication-authors">
                         <!-- Paper authors -->
                         <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
+                          <a href="https://scholar.google.com/citations?user=GvdaoD4AAAAJ&hl=en" target="_blank">Jan Blumenkamp</a>,
+                        </span>
                         <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
-                        <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
-                  </span>
+                          <a href="https://scholar.google.com/citations?user=KvCgriAAAAAJ&hl=en" target="_blank">Steven Morad</a>,
+                        </span>
+                      <span class="author-block">
+                          <a href="https://scholar.google.com/citations?user=jw0Uz9wAAAAJ&hl=en" target="_blank">Jennifer Gielis</a> and
+                        </span>
+                      <span class="author-block">
+                          <a href="https://scholar.google.com/citations?user=o7xMDgEAAAAJ&hl=en" target="_blank">Amanda Prorok</a>
+                        </span>
                     </div>
 
                     <div class="is-size-5 publication-authors">
-                        <span class="author-block">Institution Name<br>Conferance name and year</span>
-                        <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+                        <span class="author-block">Department of Computer Science and Technology, University of Cambridge<br>CoRL 2024</span>
                     </div>
 
                     <div class="column has-text-centered">
                         <div class="publication-links">
                             <!-- Arxiv PDF link -->
                             <span class="link-block">
-                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
-                           class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
-
-                            <!-- Supplementary PDF link -->
-                            <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
-                         class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
-                  </span>
+                                <a href="https://arxiv.org/pdf/2405.01107" target="_blank"
+                                   class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span>Paper</span>
+                                </a>
+                            </span>
 
                             <!-- Github link -->
                             <span class="link-block">
-                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
-                       class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
+                                <a href="https://github.com/proroklab/CoViS-Net" target="_blank"
+                                   class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                      <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>Code</span>
+                                </a>
+                            </span>
+
+                            <!-- YouTube link -->
+                            <span class="link-block">
+                                <a href="https://drive.google.com/file/d/1U8lX_DXu1JiwVvmlPRgOgqU6J5WTEc6p/preview" target="_blank"
+                                   class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </span>
+                                    <span>Video</span>
+                                </a>
+                            </span>
 
                             <!-- ArXiv abstract Link -->
                             <span class="link-block">
-                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
-                     class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
+                                <a href="https://arxiv.org/abs/2405.01107" target="_blank"
+                                class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <i class="ai ai-arxiv"></i>
+                                    </span>
+                                    <span>arXiv</span>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -122,19 +136,20 @@
     </div>
 </section>
 
-
 <!-- Teaser video-->
 <section class="hero teaser">
-    <div class="container is-max-desktop">
-        <div class="hero-body">
-            <video poster="" id="tree" autoplay controls muted loop height="100%">
-                <!-- Your video here -->
-                <source src="static/videos/banner_video.mp4"
-                        type="video/mp4">
-            </video>
-            <h2 class="subtitle has-text-centered">
-                Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus.
-            </h2>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-7 mx-auto">
+                <video class="shadow-md rounded" poster="" id="tree" autoplay controls muted loop height="100%">
+                    <source src="static/videos/hero.mp4" type="video/mp4">
+                </video>
+                <h2 class="subtitle has-text-centered mt-1 mb-3">
+                    <p class="mb-2">
+                        Our model can be used to control the relative pose of multiple follower robots (depicted in yellow and magenta) to a leader robot (blue) following a reference trajectory using visual cues in the environment only (the field-of-view is depicted by cones).
+                    </p>
+                </h2>
+            </div>
         </div>
     </div>
 </section>
@@ -148,7 +163,19 @@
                 <h2 class="title is-3">Abstract</h2>
                 <div class="content has-text-justified">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
+                        Autonomous robot operation in unstructured environments is often underpinned by spatial
+                        understanding through vision.
+                        Systems composed of multiple concurrently operating robots additionally require access to
+                        frequent, accurate and reliable pose estimates.
+                        In this work, we propose CoViS-Net, a decentralized visual spatial foundation model that learns
+                        spatial priors from data, enabling pose estimation as well as spatial comprehension.
+                        Our model is fully decentralized, platform-agnostic, executable in real-time using onboard
+                        compute, and does not require existing networking infrastructure.
+                        CoViS-Net provides relative pose estimates and a local bird's-eye-view (BEV) representation,
+                        even without camera overlap between robots (in contrast to classical methods), and can predict
+                        BEV representations of unseen regions.
+                        We demonstrate its use in a multi-robot formation control task across various real-world
+                        settings.
                     </p>
                 </div>
             </div>
@@ -157,61 +184,19 @@
 </section>
 <!-- End paper abstract -->
 
-
-<!-- Image carousel -->
-<section class="hero is-small">
-    <div class="hero-body">
-        <div class="container">
-            <div id="results-carousel" class="carousel results-carousel">
-                <div class="item">
-                    <!-- Your image here -->
-                    <img src="static/images/carousel1.jpg" alt="MY ALT TEXT"/>
-                    <h2 class="subtitle has-text-centered">
-                        First image description.
-                    </h2>
-                </div>
-                <div class="item">
-                    <!-- Your image here -->
-                    <img src="static/images/carousel2.jpg" alt="MY ALT TEXT"/>
-                    <h2 class="subtitle has-text-centered">
-                        Second image description.
-                    </h2>
-                </div>
-                <div class="item">
-                    <!-- Your image here -->
-                    <img src="static/images/carousel3.jpg" alt="MY ALT TEXT"/>
-                    <h2 class="subtitle has-text-centered">
-                        Third image description.
-                    </h2>
-                </div>
-                <div class="item">
-                    <!-- Your image here -->
-                    <img src="static/images/carousel4.jpg" alt="MY ALT TEXT"/>
-                    <h2 class="subtitle has-text-centered">
-                        Fourth image description.
-                    </h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End image carousel -->
-
-
-
-
 <!-- Youtube video -->
 <section class="hero is-small is-light">
     <div class="hero-body">
         <div class="container">
             <!-- Paper video. -->
-            <h2 class="title is-3">Video Presentation</h2>
+            <h2 class="title is-3 has-text-centered">Video Presentation</h2>
             <div class="columns is-centered has-text-centered">
                 <div class="column is-four-fifths">
 
                     <div class="publication-video">
                         <!-- Youtube embed code here -->
-                        <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe src="https://drive.google.com/file/d/1U8lX_DXu1JiwVvmlPRgOgqU6J5WTEc6p/preview" frameborder="0"
+                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -220,31 +205,122 @@
 </section>
 <!-- End youtube video -->
 
+<!-- Supplementary -->
+<section class="section hero">
+    <div class="container">
+        <div class="row is-centered has-text-centered">
+            <h3 class=" is-3 pb-2">Indoor Experiments</h3>
+            <div class="col-lg-6">
+                <div class="publication-video">
+                    <iframe src="https://drive.google.com/file/d/1_Rm6ClbvkfZvi_Kcg2rPAvqg06iECJK_/preview" frameborder="0"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="content has-text-justified">
+                    <p class="pt-2 ps-lg-4">
+                        We extensively tested CoViS-Net in various indoor environments, including corridors, offices, and rooms with challenging lighting.
+                        Using up to four follower robots maintaining fixed relative poses to a remote-controlled leader, we evaluated performance across different scenarios.
+                        Results showed consistent accuracy, with median localization errors as low as 22 cm and 5.2° for visible samples.
+                        Even without direct visual overlap, the system achieved median errors of 77-146 cm for position estimates.
+                        These tests demonstrated CoViS-Net's robustness to real-world variability in lighting, layout, and obstacles.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row is-centered has-text-centered">
+            <h3 class=" is-3 pb-2">Outdoor Experiments</h3>
+            <div class="col-lg-6">
+                <div class="publication-video">
+                    <iframe src="https://drive.google.com/file/d/1cR45bfvyJ4SloeMLeY-ni5u64e8whVRd/preview" frameborder="0"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="content has-text-justified">
+                    <p class="pt-2 ps-lg-4">
+                        Despite being trained solely on indoor data, CoViS-Net showed impressive generalization to outdoor settings.
+                        Experiments in streets and open areas yielded median pose estimation errors of 134 cm and 9.5° for non-overlapping views, and 49 cm and 6.9° for overlapping views.
+                        While slightly less accurate than indoor performance, these results remain valuable for many multi-robot applications.
+                        The system's adaptability to outdoor environments is attributed to the robust spatial understanding of the DinoV2 encoder, opening possibilities for urban exploration, search and rescue, and autonomous navigation in unstructured outdoor spaces.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Supplementary -->
 
-<!-- Video carousel -->
-<section class="hero is-small">
+<!--BEV snippet carousel -->
+<section class="hero is-light is-small">
     <div class="hero-body">
         <div class="container">
-            <h2 class="title is-3">Another Carousel</h2>
-            <div id="results-carousel" class="carousel results-carousel">
-                <div class="item item-video1">
-                    <video poster="" id="video1" autoplay controls muted loop height="100%">
-                        <!-- Your video file here -->
-                        <source src="static/videos/carousel1.mp4"
+            <div class="row is-centered has-text-centered">
+                <h1 class="title is-3">Real-World Dataset</h1>
+            </div>
+            <div class="row is-centered has-text-centered">
+                <div class="content col-lg-6 offset-lg-3 pt-3">
+                    <p>We show renderings on all real-world dataset samples.</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="bev-carousel" class="carousel results-carousel">
+                <div class="item item-sn05-01">
+                    <h3 class="has-text-centered">Office A</h3>
+                    <video poster="" id="item-sn05-01" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/sn05_01.mp4"
                                 type="video/mp4">
                     </video>
                 </div>
-                <div class="item item-video2">
-                    <video poster="" id="video2" autoplay controls muted loop height="100%">
-                        <!-- Your video file here -->
-                        <source src="static/videos/carousel2.mp4"
+                <div class="item item-sn05-02">
+                    <h3 class="has-text-centered">Office B</h3>
+                    <video poster="" id="item-sn05-02" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/sn05_02.mp4"
                                 type="video/mp4">
                     </video>
                 </div>
-                <div class="item item-video3">
-                    <video poster="" id="video3" autoplay controls muted loop height="100%">\
-                        <!-- Your video file here -->
-                        <source src="static/videos/carousel3.mp4"
+                <div class="item item-corridor-01">
+                    <h3 class="has-text-centered">Corridor A</h3>
+                    <video poster="" id="item-corridor-01" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/sn-corridor_01.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+                <div class="item item-sn-balcony-01">
+                    <h3 class="has-text-centered">Sunny</h3>
+                    <video poster="" id="item-sn-balcony-01" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/sn-balcony_01.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+                <div class="item item-s-street-01">
+                    <h3 class="has-text-centered">Corridor B</h3>
+                    <video poster="" id="item-s-street-01" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/s-street_01.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+                <div class="item item-intellab-01">
+                    <h3 class="has-text-centered">Study A</h3>
+                    <video poster="" id="item-intellab-01" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/intellab_01.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+                <div class="item item-intellab-02">
+                    <h3 class="has-text-centered">Study B</h3>
+                    <video poster="" id="item-intellab-02" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/intellab_02.mp4"
+                                type="video/mp4">
+                    </video>
+                </div>
+                <div class="item item-intellab-terrace-00">
+                    <h3 class="has-text-centered">Outdoor</h3>
+                    <video poster="" id="item-intellab-terrace-00" autoplay controls muted loop playsinline height="100%">
+                        <source src="./static/videos/bev/intellab_terrace_00.mp4"
                                 type="video/mp4">
                     </video>
                 </div>
@@ -252,33 +328,35 @@
         </div>
     </div>
 </section>
-<!-- End video carousel -->
-
-
-
-
-
+<!--End BEV snippet carousel -->
 
 <!-- Paper poster -->
-<section class="hero is-small is-light">
+<!-- <section class="hero is-small is-light">
     <div class="hero-body">
         <div class="container">
             <h2 class="title">Poster</h2>
 
-            <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
+            <iframe src="static/pdfs/sample.pdf" width="100%" height="550">
             </iframe>
 
         </div>
     </div>
-</section>
+</section> -->
 <!--End paper poster -->
 
 
 <!--BibTex citation -->
 <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
-        <h2 class="title">BibTeX</h2>
-        <pre><code>BibTex Code Here</code></pre>
+        <h2 class="title has-text-centered">BibTeX</h2>
+        <pre><code>
+            @inproceedings{blumenkamp2024covisnet,
+              title={CoViS-Net: A Cooperative Visual Spatial Foundation Model for Multi-Robot Applications},
+              author={Blumenkamp, Jan and Morad, Steven and Gielis, Jennifer and Prorok, Amanda},
+              booktitle={Conference on Robot Learning},
+              year={2024}
+            }
+        </code></pre>
     </div>
 </section>
 <!--End BibTex citation -->
@@ -291,9 +369,11 @@
                 <div class="content">
 
                     <p>
-                        This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-                        You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-                        Commons Attribution-ShareAlike 4.0 International License</a>.
+                        This page was built using the <a
+                            href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic
+                        Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io"
+                                                                                target="_blank">Nerfies</a> project
+                        page.
                     </p>
 
                 </div>
