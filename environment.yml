@@ -1,0 +1,28 @@
+name: covisnet
+channels:
+  - pytorch
+  - nvidia
+  - aihabitat
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pytorch=2.3.1
+  - pytorch-cuda=12.1
+  - cmake=3.14.0
+  - habitat-sim=0.3.1
+  - pip
+  - pip:
+    - numpy==1.26.4
+    - roma==1.5.0
+    - lightning[extra]==2.4.0
+    - torch_geometric==2.5.3
+    - torch-cluster -f https://data.pyg.org/whl/torch-2.3.0+cu121.html
+    - torch-scatter -f https://data.pyg.org/whl/torch-2.3.0+cu121.html
+    - torch-sparse -f https://data.pyg.org/whl/torch-2.3.0+cu121.html
+    - torchvision==0.18.1
+    - xformers==0.0.27
+    - matplotlib
+    - wandb
+    - pandas==1.5.3
+    - torch-tensorrt==2.3.0
+
