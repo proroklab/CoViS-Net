@@ -1,0 +1,40 @@
+# lightning.pytorch==2.4.0
+trainer:
+  accelerator: auto
+  logger: False
+  callbacks: null
+  max_epochs: 20
+  log_every_n_steps: 10
+model:
+  model:
+    class_path: train.models.model_bev_pose.BEVGNNModel
+    init_args:
+      comm_range: 1000.0
+      gnn_in_channels: 24
+      gnn_in_seq_len: 128
+      pose_gnn_out_channels: 384
+      bev_gnn_out_channels: 384
+      dec_out_channels: 1
+  initial_learning_rate: 0.00001
+  betas:
+    - 0.9
+    - 0.999
+  weight_decay: 0.0025
+  max_learning_rate: 0.001
+  warmup_epochs: 2
+  num_epochs: 20
+  seed: 44
+data:
+  #data_dir: datasets/dataset_zip_240222
+  data_dir: datasets/dataset_zip_20241011
+  data_test_dir: datasets/dataset_real_5_231024
+  batch_size: 16
+  #batch_size: 16
+  num_workers: 32
+  nodes_per_sample: 5
+  quat_diff_max: null
+  input_resolution: 224
+  distance_upper_bound: 2.0
+  n_samples: 1
+  data_frac: 0.25
+ckpt_path: null

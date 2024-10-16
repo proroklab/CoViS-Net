@@ -1,0 +1,18 @@
+# lightning.pytorch==2.0.1
+trainer:
+  logger:
+    class_path: lightning.pytorch.loggers.WandbLogger
+    init_args:
+      project: panoptes
+      log_model: false
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        save_top_k: 1
+        dirpath: ./checkpoints_covisnet
+        filename: '{epoch}-{step}'
+        monitor: val_dist_loss/dataloader_idx_0
+        mode: min
+        save_last: True
+  log_every_n_steps: 10
