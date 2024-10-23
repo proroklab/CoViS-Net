@@ -151,8 +151,8 @@ def generate(scene_idx, store_depth, hm3d_data_path, dataset_out_path):
                 [0.25, 1.9, 0.25],
             ),  # top/right, up/down, top/right
             "rot_range": (
-                [-np.pi / 32, -np.pi / 4, -np.pi / 32],
-                [np.pi / 32, np.pi / 4, np.pi / 32],
+                [-np.pi / 4, -np.pi / 4, -np.pi / 4],
+                [np.pi / 4, np.pi / 4, np.pi / 4],
             ),  # pitch up/down, yaw left/right (?), tilt l/r,
             #'rot_range': ([0.0, 0.0, 0.0], [0.0, math.pi * 2, 0.0]), # pitch up/down, yaw left/right (?), tilt l/r,
             "samples_around_point": 4,
