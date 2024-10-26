@@ -321,7 +321,7 @@ class RelPosDataset(Dataset):
         return data, labels
 
 
-class RealRelPosDataset3(RelPosDataset):
+class RealRelPosDataset(RelPosDataset):
     def __init__(
         self,
         data_path_str: str,
@@ -526,7 +526,7 @@ class RelPosDataModule(pl.LightningDataModule):
     def setup(self, stage: str):
         if "real" in self.data_dir:
             self.dataset_eval = [
-                RealRelPosDataset3(
+                RealRelPosDataset(
                     self.data_dir,
                     splits=[0.0, 1.0],
                     nodes_per_sample=3,
@@ -556,14 +556,17 @@ class RelPosDataModule(pl.LightningDataModule):
                     distance_upper_bound=self.distance_upper_bound,
                     input_resolution=self.input_resolution,
                     quat_diff_max=self.quat_diff_max,
-                ),
-                RealRelPosDataset3(
-                    self.data_test_dir,
-                    splits=[0.0, 1.0],
-                    nodes_per_sample=3,
-                    input_resolution=self.input_resolution,
-                ),
+                )
             ]
+            if self.data_test_dir is not None:
+                self.dataset_eval.append(
+                    RealRelPosDataset(
+                        self.data_test_dir,
+                        splits=[0.0, 1.0],
+                        nodes_per_sample=3,
+                        input_resolution=self.input_resolution,
+                    )
+                )
             self.dataset_test = [
                 RelPosDataset(
                     self.data_dir,
@@ -574,14 +577,17 @@ class RelPosDataModule(pl.LightningDataModule):
                     distance_upper_bound=self.distance_upper_bound,
                     input_resolution=self.input_resolution,
                     quat_diff_max=self.quat_diff_max,
-                ),
-                RealRelPosDataset3(
-                    self.data_test_dir,
-                    splits=[0.0, 1.0],
-                    nodes_per_sample=3,
-                    input_resolution=self.input_resolution,
-                ),
+                )
             ]
+            if self.data_test_dir is not None:
+                self.dataset_test.append(
+                    RealRelPosDataset(
+                        self.data_test_dir,
+                        splits=[0.0, 1.0],
+                        nodes_per_sample=3,
+                        input_resolution=self.input_resolution,
+                    )
+                )
 
     def train_dataloader(self):
         return DataLoader(
@@ -590,7 +596,7 @@ class RelPosDataModule(pl.LightningDataModule):
             num_workers=self.num_workers,
             shuffle=True,
             pin_memory=True,
-            persistent_workers=True,
+            persistent_workers=True if self.num_workers > 0 else False,
         )
 
     def val_dataloader(self):
@@ -601,7 +607,7 @@ class RelPosDataModule(pl.LightningDataModule):
                 num_workers=self.num_workers,
                 shuffle=False,
                 pin_memory=True,
-                persistent_workers=True,
+                persistent_workers=True if self.num_workers > 0 else False,
             )
             for dataset in self.dataset_eval
         ]
@@ -614,8 +620,66 @@ class RelPosDataModule(pl.LightningDataModule):
                 num_workers=self.num_workers,
                 shuffle=True,
                 pin_memory=True,
-                persistent_workers=True,
+                persistent_workers=True if self.num_workers > 0 else False,
             )
             for dataset in self.dataset_test
         ]
 
+
+import torch_geometric
+import roma
+from .rendering import render_batch
+
+
+def visualize():
+    torch.manual_seed(1)
+
+    batch_size = 2
+    nodes_per_sample = 5
+    datamodule = RelPosDataModule(
+        "datasets/dataset_zip_240831",
+        None,  # "datasets/dataset_real_5_231024",
+        nodes_per_sample=nodes_per_sample,
+        num_workers=0,
+        batch_size=batch_size,
+        quat_diff_max=None,
+        distance_upper_bound=1.0,
+        input_resolution=224,
+        n_samples=10,
+        data_frac=0.01,
+    )
+    datamodule.setup("")
+    data_batch, label_batch = next(iter(datamodule.train_dataloader()))
+
+    pos = data_batch["pos"][:, :, :2].reshape(batch_size * nodes_per_sample, 2)
+    edge_batch = torch.repeat_interleave(
+        torch.arange(batch_size), nodes_per_sample, dim=0
+    )
+
+    edge_index = torch_geometric.nn.pool.radius_graph(
+        pos, batch=edge_batch, r=4.0, loop=False
+    )
+
+    # fully connected minus self-loops
+    n_d = batch_size * (nodes_per_sample**2 - nodes_per_sample)
+
+    # Predictions should come from model, but in this case it's random test data
+    edge_preds = {
+        "pos": (torch.rand(n_d, 3) - 0.5) * 2.0,
+        "rot": torch.ones(n_d, 4),
+        "pos_var": torch.rand(n_d, 3) * 3,
+        "rot_var": torch.rand(n_d, 1),
+    }
+    node_preds = np.ones_like(label_batch["topdowns_agents"])
+    render_batch(
+        data_batch,
+        label_batch,
+        edge_index,
+        edge_batch,
+        edge_preds,
+        node_preds,
+    )
+
+
+if __name__ == "__main__":
+    visualize()

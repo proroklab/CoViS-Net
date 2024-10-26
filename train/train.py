@@ -265,7 +265,9 @@ class TrainerModuleLocalize(pl.LightningModule):
         }
         self.log_dict(metrics, sync_dist=True)
 
-        if False: # Set to true if you want to save and load on validation end. Also update the exported model id below.
+        if (
+            False
+        ):  # Set to true if you want to save and load on validation end. Also update the exported model id below.
             if dataloader_idx not in self.eval_preds.keys():
                 self.eval_preds[dataloader_idx] = {"e": [], "n": []}
             edge_preds, node_preds = self.export_preds(inputs, outputs, meta)
@@ -274,7 +276,7 @@ class TrainerModuleLocalize(pl.LightningModule):
 
     def on_validation_epoch_end(self):
         for d_idx, eval_preds in self.eval_preds.items():
-            model_id = "checkpoint_epoch" # Update for export
+            model_id = "checkpoint_epoch"  # Update for export
             df_edge = pd.concat([ep for ep in eval_preds["e"]])
             df_edge.to_pickle(f"eval_camera_ready/eval_e_{model_id}_{d_idx}.pkl")
             node_preds = torch.cat([ep for ep in eval_preds["n"]], dim=0)
@@ -294,80 +296,29 @@ class TrainerModuleLocalize(pl.LightningModule):
                     test_input_dev_model
                 )
 
-                edge_index = edge_index.cpu()
-                edge_batch = edge_batch.cpu()
-
-                labels_pos = labels["pos"].flatten(0, 1)
-                pos_sink = labels_pos[edge_index[1]]
-                pos_source = labels_pos[edge_index[0]]
-
-                labels_rot = labels["rot_quat"].flatten(0, 1)
-                angle_sink = labels_rot[edge_index[1]]
-                angle_source = labels_rot[edge_index[0]]
-
-                rel_pos = pos_source - pos_sink
-                rel_pos_source = roma.RotationUnitQuat(
-                    linear=roma.quat_inverse(angle_source)
-                ).apply(rel_pos)
-                angle_between_nodes = roma.quat_product(
-                    angle_source, roma.quat_inverse(angle_sink)
-                )
-
-                edge_feature_labels = torch.concat(
-                    [
-                        rel_pos_source,
-                        roma.unitquat_to_rotvec(angle_between_nodes)[:, 1].unsqueeze(1),
-                    ],
-                    dim=1,
-                )
-                edge_feature_preds = torch.concat(
-                    [
-                        edge_preds["pos"],
-                        roma.unitquat_to_rotvec(edge_preds["rot"])[:, 1].unsqueeze(1),
-                    ],
-                    dim=1,
-                )
-                edge_vars_preds = torch.concat(
-                    [
-                        edge_preds["pos_var"],
-                        edge_preds["rot_var"].unsqueeze(1),
-                    ],
-                    dim=1,
-                )
-
                 cpu = torch.device("cpu")
-                pose_renderings = render_localize(
-                    test_dataloader.dataset,
+                renderings = render_batch(
                     to_device(inputs, cpu),
                     to_device(labels, cpu),
-                    to_device(
-                        (edge_feature_preds, edge_vars_preds, edge_index, edge_batch),
-                        cpu,
-                    ),
-                    to_device(edge_feature_labels, cpu),
-                )
-
-                bev_renderings = render_bev(
-                    test_dataloader.dataset, inputs, labels, node_preds.cpu()
+                    to_device(edge_index, cpu),
+                    to_device(edge_batch, cpu),
+                    to_device(edge_preds, cpu),
+                    to_device(node_preds, cpu),
                 )
 
                 if self.logger is not None:
                     self.logger.log_image(
-                        key=f"pose_pred_sample_{dataloader_idx}",
-                        images=pose_renderings,
+                        key=f"render_{dataloader_idx}",
+                        images=renderings,
                     )
-                    self.logger.log_image(
-                        key=f"bev_pred_sample_{dataloader_idx}",
-                        images=bev_renderings,
-                    )
-                    for img in pose_renderings + bev_renderings:
+                    for img in renderings:
                         try:
                             os.remove(img._path)
                         except FileNotFoundError:
                             pass
                 else:
-                    Path('./train/render').mkdir(parents=False, exist_ok=True)
-                    for img in pose_renderings + bev_renderings:
+                    Path("./train/render").mkdir(parents=False, exist_ok=True)
+                    for img in renderings:
                         shutil.move(
                             img._path,
                             f"./train/render/render_{dataloader_idx}_{render_idx:04d}.png",
