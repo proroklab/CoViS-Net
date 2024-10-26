@@ -106,15 +106,16 @@ def render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred):
             extent=[-3, 3, -3, 3],
             interpolation="nearest",
         )
-        axs[f"pred_{i}"].imshow(
-            bev_pred[i][0],
-            vmin=0,
-            vmax=1,
-            cmap="gray",
-            alpha=0.5,
-            extent=[-3, 3, -3, 3],
-            interpolation="nearest",
-        )
+        if bev_pred is not None:
+            axs[f"pred_{i}"].imshow(
+                bev_pred[i][0],
+                vmin=0,
+                vmax=1,
+                cmap="gray",
+                alpha=0.5,
+                extent=[-3, 3, -3, 3],
+                interpolation="nearest",
+            )
         if i > 0:
             axs[f"pred_{i}"].set_yticklabels([])
             axs[f"gt_{i}"].set_yticklabels([])
@@ -132,25 +133,29 @@ def render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred):
         pos = torch.Tensor([-p[0], p[2]])
         plot_marker(ax, pos, None, heading, None, colors[i])
 
-    for (i, j, p_pred, q_pred, p_var, q_var) in zip(
-        edge_index[1],
-        edge_index[0],
-        edge_pred["pos"],
-        edge_pred["rot"],
-        edge_pred["pos_var"],
-        edge_pred["rot_var"],
-    ):
-        ax = axs[f"pred_{j}"]
-        heading = roma.unitquat_to_rotvec(q_pred)[1]
-        pos = torch.Tensor([-p_pred[0], p_pred[2]])
-        pos_var = torch.Tensor([p_var[2], p_var[0]])
-        if pos_var[0] < 1.5 or pos_var[1] < 1.5:
-            plot_marker(ax, pos, pos_var, heading, q_var, colors[i])
+    if not any([v is None for v in edge_pred.values()]):
+        for (i, j, p_pred, q_pred, p_var, q_var) in zip(
+            edge_index[1],
+            edge_index[0],
+            edge_pred["pos"],
+            edge_pred["rot"],
+            edge_pred["pos_var"],
+            edge_pred["rot_var"],
+        ):
+            ax = axs[f"pred_{j}"]
+            heading = roma.unitquat_to_rotvec(q_pred)[1]
+            pos = torch.Tensor([-p_pred[0], p_pred[2]])
+            pos_var = torch.Tensor([p_var[2], p_var[0]])
+            if pos_var[0] < 1.5 or pos_var[1] < 1.5:
+                plot_marker(ax, pos, pos_var, heading, q_var, colors[i])
 
     return fig
 
 
 def unbatch_dict(data, indexes):
+    if data is None:
+        return None
+
     unbatched_dict = {}
     for key, value in data.items():
         if value is None:
@@ -187,6 +192,17 @@ def render_batch(
     edge_index_unbatched = torch_geometric.utils.unbatch_edge_index(
         edge_index, edge_batch
     )
+
+    if edge_preds_unbatched is None:
+        edge_preds_unbatched = {
+            "pos": [None] * len(edge_labels_unbatched),
+            "rot": [None] * len(edge_labels_unbatched),
+            "pos_var": [None] * len(edge_labels_unbatched),
+            "rot_var": [None] * len(edge_labels_unbatched),
+        }
+
+    if node_preds is None:
+        node_preds = [None] * len(datas_batched["img_raw"])
 
     renderings = []
     for (
