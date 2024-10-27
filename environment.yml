@@ -25,4 +25,5 @@ dependencies:
     - wandb
     - pandas==1.5.3
     - torch-tensorrt==2.3.0
+    - black==24.10.0
 
