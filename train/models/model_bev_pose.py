@@ -418,3 +418,32 @@ class BEVGNNModelLoaded(nn.Module):
             batch_size, n_agents, 1, 60, 60, device=input["img_raw"].device
         )
         return (edge_preds, node_preds), (graphs.edge_index, graphs.batch)
+
+
+def test():
+    out_channels = 1
+    bs = 2
+    n_nodes = 3
+
+    dev = torch.device("cpu")
+    model = BEVGNNModel(2.0, 24, 64, 384, 384, out_channels).to(dev)
+    inp = {
+        "img_norm": torch.rand(bs, n_nodes, 3, 224, 224, device=dev),
+        "pos": torch.rand(bs, n_nodes, 3, device=dev),
+        "rot_quat": torch.rand(bs, n_nodes, 4, device=dev),
+    }
+    (edge_preds, bev_nodes), (edge_index, edge_batch) = model(inp)
+
+    edge_size = bs * (n_nodes**2 - n_nodes)
+    assert edge_batch.shape == (bs * n_nodes,)
+    assert edge_index.shape == (2, edge_size)
+    assert bev_nodes.shape == (bs, n_nodes, out_channels, 60, 60)
+    assert all(key in edge_preds for key in ["pos", "pos_var", "rot", "rot_var"])
+    assert edge_preds["pos"].shape == (edge_size, 3)
+    assert edge_preds["pos_var"].shape == (edge_size, 3)
+    assert edge_preds["rot"].shape == (edge_size, 4)
+    assert edge_preds["rot_var"].shape == (edge_size, 1)
+
+
+if __name__ == "__main__":
+    test()
