@@ -25,11 +25,9 @@ model:
   num_epochs: 20
   seed: 44
 data:
-  #data_dir: datasets/dataset_zip_240222
-  data_dir: datasets/dataset_zip_20241011
+  data_dir: datasets/dataset_zip_240222
   data_test_dir: datasets/dataset_real_5_231024
   batch_size: 16
-  #batch_size: 16
   num_workers: 32
   nodes_per_sample: 5
   quat_diff_max: null

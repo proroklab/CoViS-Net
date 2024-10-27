@@ -122,7 +122,7 @@ def render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred):
         axs[f"gt_{i}"].set_xticklabels([])
         axs[f"pred_{i}"].set_xlabel("x [m]")
 
-    for (i, j, p, q) in zip(
+    for i, j, p, q in zip(
         edge_index[1],
         edge_index[0],
         edge_label["pos"],
@@ -134,7 +134,7 @@ def render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred):
         plot_marker(ax, pos, None, heading, None, colors[i])
 
     if not any([v is None for v in edge_pred.values()]):
-        for (i, j, p_pred, q_pred, p_var, q_var) in zip(
+        for i, j, p_pred, q_pred, p_var, q_var in zip(
             edge_index[1],
             edge_index[0],
             edge_pred["pos"],
@@ -239,5 +239,6 @@ def render_batch(
         }
         fig = render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred)
         renderings.append(wandb.Image(fig))
-        plt.show()
         plt.close()
+
+    return renderings

@@ -14,7 +14,7 @@ import torch_geometric
 import pandas as pd
 from torchmetrics.classification import BinaryJaccardIndex
 
-from .rendering import render_localize, render_bev
+from .rendering import render_batch
 from .dataloader import RelPosDataModule
 from .dice_loss import DiceLoss
 
