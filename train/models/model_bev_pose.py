@@ -294,7 +294,7 @@ class BEVGNNModel(nn.Module):
             "rot": roma.symmatrixvec_to_unitquat(
                 edge_preds[:, 6:16].to(torch.float)
             ).to(edge_preds.dtype),
-            "rot_var": edge_preds[:, 16].exp(),
+            "rot_var": edge_preds[:, 16:17].exp(),
         }
 
         graphs.edge_index, edge_mask = dropout_edge(graphs.edge_index, p=0.3)

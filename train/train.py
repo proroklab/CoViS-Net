@@ -139,7 +139,7 @@ class TrainerModuleLocalize(pl.LightningModule):
                         "qy_pred": qs_p[:, 1].cpu().numpy(),
                         "qz_pred": qs_p[:, 2].cpu().numpy(),
                         "qw_pred": qs_p[:, 3].cpu().numpy(),
-                        "q_var": qs_v.cpu().numpy(),
+                        "q_var": qs_v[:, 0].cpu().numpy(),
                         "px_gt": ps_gt[:, 0].cpu().numpy(),
                         "py_gt": ps_gt[:, 1].cpu().numpy(),
                         "pz_gt": ps_gt[:, 2].cpu().numpy(),
@@ -180,7 +180,7 @@ class TrainerModuleLocalize(pl.LightningModule):
         )
 
         angle_between_loss = quat_gaussian_nll(
-            edge_preds["rot"], angle_between_nodes, edge_preds["rot_var"]
+            edge_preds["rot"], angle_between_nodes, edge_preds["rot_var"][:, 0]
         )
 
         angle_between_node_gt = roma.unitquat_to_rotvec(angle_between_nodes.float())[
@@ -204,7 +204,7 @@ class TrainerModuleLocalize(pl.LightningModule):
                 "dist_metric": dist_metric,
                 "dist": dist_to_other,
                 "dist_pred_var": edge_preds["pos_var"],
-                "angle_between_nodes_pred_var": edge_preds["rot_var"],
+                "angle_between_nodes_pred_var": edge_preds["rot_var"][:, 0],
                 "bev_bce": bce_loss,
                 "bev_dice": dice_loss,
                 "rel_pos": rel_pos_source,

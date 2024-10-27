@@ -147,7 +147,7 @@ def render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred):
             pos = torch.Tensor([-p_pred[0], p_pred[2]])
             pos_var = torch.Tensor([p_var[2], p_var[0]])
             if pos_var[0] < 1.5 or pos_var[1] < 1.5:
-                plot_marker(ax, pos, pos_var, heading, q_var, colors[i])
+                plot_marker(ax, pos, pos_var, heading, q_var[0], colors[i])
 
     return fig
 
