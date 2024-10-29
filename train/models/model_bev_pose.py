@@ -96,7 +96,7 @@ class PoseEdgeConv(torch_geometric.nn.MessagePassing):
         self.aggregator = nn.Sequential(
             PyramidTransformer(
                 linspace_mult(self.in_channels, self.out_channels, 8, 48),
-                [seq_len * 2] * 4 + linspace_mult(seq_len * 2, 8, 4, 8),
+                [seq_len * 2] * 4 + linspace_mult(seq_len * 2, 32, 4, 8),
             ),
         )
 
@@ -108,7 +108,7 @@ class PoseEdgeConv(torch_geometric.nn.MessagePassing):
 
     def forward(self, x, edge_index):
         msg = self.message(x[edge_index[1]], x[edge_index[0]])
-        return msg[:, 0]
+        return msg  # [:, 0]
 
 
 class BEVEdgeConv(torch_geometric.nn.MessagePassing):
@@ -145,7 +145,7 @@ class BEVEdgeConv(torch_geometric.nn.MessagePassing):
                 linspace_mult(
                     self.in_channels + pose_emb_size, self.out_channels, 8, 48
                 ),
-                linspace_mult(self.in_seq_len * 2, 8, 8, 8),
+                linspace_mult(self.in_seq_len * 2, 32, 8, 8),
             ),
         )
 
@@ -253,14 +253,25 @@ class BEVGNNModel(nn.Module):
                 linspace_mult(enc_out_seq_len, self.gnn_in_seq_len, 6, 8),
             ),
         )
-        self.pose_gnn = PoseEdgeConv(
+        self.pose_gnn_a = PoseEdgeConv(
             gnn_in_channels, pose_gnn_out_channels, self.gnn_in_seq_len, aggr="add"
         )
-
-        self.pose_gnn_decoder_post = torch.nn.Sequential(
+        self.pose_gnn_a_decoder_post = torch.nn.Sequential(
             torch.nn.LeakyReLU(),
             torch.nn.Linear(pose_gnn_out_channels, 17),
         )
+
+        self.pose_gnn_b = PoseEdgeConv(
+            pose_gnn_out_channels,
+            pose_gnn_out_channels,
+            32,
+            aggr="add",
+        )
+        self.pose_gnn_b_decoder_post = torch.nn.Sequential(
+            torch.nn.LeakyReLU(),
+            torch.nn.Linear(pose_gnn_out_channels, 17),
+        )
+
         self.bev_gnn = BEVEdgeConv(
             gnn_in_channels, self.gnn_in_seq_len, bev_gnn_out_channels
         )
@@ -286,16 +297,8 @@ class BEVGNNModel(nn.Module):
         )
         graphs.edge_index = edge_index_pose
 
-        z_p = self.pose_gnn(graphs.x, graphs.edge_index)
-        edge_preds = self.pose_gnn_decoder_post(z_p)
-        edge_preds_proc = {
-            "pos": edge_preds[:, 0:3],
-            "pos_var": edge_preds[:, 3:6].exp(),
-            "rot": roma.symmatrixvec_to_unitquat(
-                edge_preds[:, 6:16].to(torch.float)
-            ).to(edge_preds.dtype),
-            "rot_var": edge_preds[:, 16:17].exp(),
-        }
+        z_p = self.pose_gnn_a(graphs.x, graphs.edge_index)
+        edge_preds = self.pose_gnn_a_decoder_post(z_p[:, 0])
 
         graphs.edge_index, edge_mask = dropout_edge(graphs.edge_index, p=0.3)
 
@@ -310,6 +313,18 @@ class BEVGNNModel(nn.Module):
             graphs.edge_index, graphs.edge_attr, fill_value=0.0
         )
         z = self.bev_gnn(graphs.x, edge_index_self, edge_attr_self)
+
+        z_p_b = self.pose_gnn_b.message(z[edge_index_pose[0]], z_p)
+        edge_preds_b = self.pose_gnn_b_decoder_post(z_p_b)[:, 0]
+
+        edge_preds_proc = {
+            "pos": edge_preds_b[:, 0:3],
+            "pos_var": edge_preds_b[:, 3:6].exp(),
+            "rot": roma.symmatrixvec_to_unitquat(
+                edge_preds_b[:, 6:16].to(torch.float)
+            ).to(edge_preds_b.dtype),
+            "rot_var": edge_preds_b[:, 16:17].exp(),
+        }
 
         bev_in = z[:, 0].view(z.shape[0], self.bev_gnn_out_channels, 1, 1)
         dec = self.bev_decoder(bev_in)
