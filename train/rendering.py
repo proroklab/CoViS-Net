@@ -167,7 +167,13 @@ def unbatch_dict(data, indexes):
 
 
 def render_batch(
-    datas_batched, labels_batched, edge_index, edge_batch, edge_preds, node_preds
+    datas_batched,
+    labels_batched,
+    edge_index,
+    edge_batch,
+    edge_preds,
+    node_preds,
+    show=False,
 ):
     n = 16
 
@@ -240,6 +246,8 @@ def render_batch(
         }
         fig = render_single(img, bev_label, bev_pred, edge_index, edge_label, edge_pred)
         renderings.append(wandb.Image(fig))
+        if show:
+            plt.show()
         plt.close()
 
     return renderings

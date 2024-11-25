@@ -626,18 +626,16 @@ class RelPosDataModule(pl.LightningDataModule):
         ]
 
 
-import torch_geometric
-import roma
-from .rendering import render_batch
+def visualize(dataset_path):
+    import torch_geometric
+    from .rendering import render_batch
 
-
-def visualize():
     torch.manual_seed(1)
 
     batch_size = 2
     nodes_per_sample = 5
     datamodule = RelPosDataModule(
-        "datasets/dataset_zip_240831",
+        dataset_path,
         None,  # "datasets/dataset_real_5_231024",
         nodes_per_sample=nodes_per_sample,
         num_workers=0,
@@ -678,8 +676,15 @@ def visualize():
         edge_batch,
         edge_preds,
         node_preds,
+        show=True,
     )
 
 
 if __name__ == "__main__":
-    visualize()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("dataset_path", type=str)
+    args = parser.parse_args()
+
+    visualize(args.dataset_path)
