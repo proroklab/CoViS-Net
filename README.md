@@ -47,6 +47,12 @@ An overview of pre-trained models can be found in the [`models`](models) directo
 ## Robot deployment
 The ROS2 on-robot evaluation code can be found in the [`evaluation/ros2`](evaluation/ros2) directory.
 
+To export a trained model (or one of the pre-trained models) for the decentralized deployment, adapt the path to the model in the script and run
+```
+python3 -m evaluation.export_model_torchscript
+python3 -m evaluation.export_torchscript_tensorrt
+```
+
 ## Utility/testing
 
 We include some tests for individual components.
