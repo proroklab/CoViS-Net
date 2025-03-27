@@ -31,7 +31,7 @@ The dataset generation can be triggered with the following command:
 The number indicates the upper limit on the HM3D scenes used for the data generation (0 would only generate the first scene, 800 all training scenes). The datasets will be moved to the `datasets` folder.
 
 ## Real-world dataset
-Download the dataset from [here](https://drive.google.com/file/d/1Bbf-S4_jxr5AdLceIrHYhLQitqkQBv8R/view?usp=sharing), move it to the `datasets` folder and extract the zip.
+The dataset can be downloaded [here](https://drive.google.com/file/d/1Bbf-S4_jxr5AdLceIrHYhLQitqkQBv8R/view?usp=sharing). You can also run the `download.sh` script from within the `datasets` folder.
 
 ## Training
 After generating the dataset, update the dataset path of the field `data/data_dir` in `train/configs/covisnet.yaml`. Update the logging configuration in `train/configs/logging.yaml` as appropriate.
@@ -42,13 +42,10 @@ python3 -m train fit --config train/configs/covisnet.yaml --config train/configs
 ```
 
 ## Pre-trained models:
-TODO
-
-# 128, 24
-# 
+An overview of pre-trained models can be found in the [`models`](models) directory.
 
 ## Robot deployment
-TODO
+The ROS2 on-robot evaluation code can be found in the [`evaluation/ros2`](evaluation/ros2) directory.
 
 ## Utility/testing
 
@@ -63,3 +60,9 @@ To test the model, run:
 ```
 python3 -m train.models.model_bev_pose
 ```
+
+You can run the `download.sh` script in the `models` directory to download exported models to be used with the `evaluate_decentralized` script. After you have also downloaded the `download.sh` script in the `dataset` directory, you can run
+```
+python -m evaluation.run_decentralized
+```
+from the root of the repository to evaluate some selected images from the real-world dataset.
