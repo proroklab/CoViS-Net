@@ -1,0 +1,36 @@
+launch:
+- arg:
+    name: "uuid"
+    default: "robomaster_2"
+- arg:
+    name:     "ctrl_type"
+    default:  "pos-vel"
+
+- node:
+    pkg:  "tf2_ros"
+    exec: "static_transform_publisher"
+    output: "screen"
+    args: "--frame-id $(var uuid)/camera_0 --child-frame-id $(var uuid)_body_ned --pitch 1.57 --yaw -1.57" # --y -0.1
+
+- node:
+    pkg:  "tf2_ros"
+    exec: "static_transform_publisher"
+    output: "screen"
+    args: "--frame-id $(var uuid)_body_ned --child-frame-id $(var uuid)_body"
+
+- node:
+    pkg:  "state_manager"
+    exec: "state_manager_node"
+    output: "screen"
+    namespace: "$(var uuid)"
+    param:
+    - { name: "state_source",       value: "tf-mocap" }
+    - { name: "tf_rate",            value: 50 }
+    - { name: "tf_myframe",         value: "$(var uuid)_body" }
+    - { name: "tf_baseframe",       value: "robomaster_0_body" }
+    #- { name: "filter_type",        value: "lwma" }
+    #- { name: "filter_len",         value: 5 }
+    - { name: "filter_type",        value: "kalman" }
+    - { name: "kf_params",          value: [ 0.1594, 0.0051, 0.0147, 6.3836 ] }
+
+  # ros2 run state_manager state_manager_node --ros-args -r __ns:=/robomaster_1 -p state_source:=tf-mocap -p tf_rate:=15 -p tf_myframe:=robomaster_1/camera_0 -p tf_baseframe:=robomaster_0/camera_0 -p filter_type:=gauss -p filter_len:=5

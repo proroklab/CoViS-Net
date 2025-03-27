@@ -44,6 +44,22 @@ python3 -m train fit --config train/configs/covisnet.yaml --config train/configs
 ## Pre-trained models:
 TODO
 
+# 128, 24
+# 
+
 ## Robot deployment
 TODO
 
+## Utility/testing
+
+We include some tests for individual components.
+
+To test the dataloader, run:
+```
+python3 -m train.dataloader
+```
+
+To test the model, run:
+```
+python3 -m train.models.model_bev_pose
+```

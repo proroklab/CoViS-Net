@@ -1,7 +1,9 @@
 data
 datasets
 *__pycache__*
+*.DS_Store*
 train/render
 checkpoints_covisnet
 wandb
+.idea
 

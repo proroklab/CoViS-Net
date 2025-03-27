@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  encoder:
+    build:
+      context: ./
+      dockerfile: ./docker/encoder/Dockerfile
+      cache_from:
+        - ros2_panoptes_encoder
+        - 10.3.0.3:5000/ros2_panoptes_encoder
+    network_mode: host
+    ipc: host
+    runtime: nvidia
+    command: /bin/bash -c ". install/setup.bash && ros2 launch sensing_cpp sensing.launch.py"
+  control:
+    build:
+      context: ./
+      dockerfile: ./docker/control/Dockerfile
+    network_mode: host
+    ipc: host
+    runtime: nvidia
+    command: /bin/bash -c ". install/setup.bash && ros2 launch control control.launch.py"
+   

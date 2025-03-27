@@ -1,0 +1,15 @@
+{
+  "host_daemon_port": 10240,
+  "alt_daemon_port_offset": 1,
+  "host_id": {
+    "value": 5
+  },
+  "localhost": "127.0.0.1",
+  "host_daemon_socket_addr": "0.0.0.0:10240",
+  "connected_networks": [
+    "10.3.2.0/24"
+  ],
+  "data_networks": [
+    "10.3.2.0/24"
+  ]
+}

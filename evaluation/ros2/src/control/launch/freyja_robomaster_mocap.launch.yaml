@@ -1,0 +1,114 @@
+launch:
+- arg:
+    name:     "uuid"
+- arg:
+    name:     "ctrl_type"
+    default:  "pos-vel"
+
+- node:
+    pkg:  "tf2_ros"
+    exec: "static_transform_publisher"
+    output: "screen"
+    args: "--frame-id map --child-frame-id motive --roll 1.57"
+
+- node:
+    pkg:  "tf2_ros"
+    exec: "static_transform_publisher"
+    output: "screen"
+    args: "--frame-id $(var uuid)/camera_0 --child-frame-id $(var uuid)_body_ned --pitch 1.57 --yaw -1.57" # --y -0.1
+
+- node:
+    pkg:  "tf2_ros"
+    exec: "static_transform_publisher"
+    output: "screen"
+    args: "--frame-id $(var uuid)_body_ned --child-frame-id $(var uuid)_body --roll 3.14 --yaw 1.57"
+
+- node:
+    pkg:  "state_manager"
+    exec: "state_manager_node"
+    output: "screen"
+    namespace: "$(var uuid)"
+    param:
+    - { name: "state_source",       value: "tf-mocap" }
+    - { name: "tf_baseframe",       value: "map" }
+    - { name: "tf_myframe",         value: "$(var uuid)" }
+    - { name: "filter_type",        value: "gauss" }
+    - { name: "tf_rate",            value: 30 }
+    - { name: "filter_len",         value: 5 }
+
+- node:
+    pkg:  "state_manager"
+    exec: "state_manager_node"
+    output: "screen"
+    namespace: "/external/robomaster_1"
+    param:
+    - { name: "state_source",       value: "tf-mocap" }
+    - { name: "tf_baseframe",       value: "map" }
+    - { name: "tf_myframe",         value: "robomaster_1_ghost" }
+    - { name: "filter_type",        value: "gauss" }
+    - { name: "tf_rate",            value: 30 }
+    - { name: "filter_len",         value: 5 }
+
+- node:
+    pkg:  "state_manager"
+    exec: "state_manager_node"
+    output: "screen"
+    namespace: "/external/robomaster_2"
+    param:
+    - { name: "state_source",       value: "tf-mocap" }
+    - { name: "tf_baseframe",       value: "map" }
+    - { name: "tf_myframe",         value: "robomaster_2_ghost" }
+    - { name: "filter_type",        value: "gauss" }
+    - { name: "tf_rate",            value: 30 }
+    - { name: "filter_len",         value: 5 }
+
+- node:
+    pkg:  "state_manager"
+    exec: "state_manager_node"
+    output: "screen"
+    namespace: "/external/camera_sony"
+    param:
+    - { name: "state_source",       value: "tf-mocap" }
+    - { name: "tf_baseframe",       value: "map" }
+    - { name: "tf_myframe",         value: "camera_sony" }
+    - { name: "filter_type",        value: "gauss" }
+    - { name: "tf_rate",            value: 30 }
+    - { name: "filter_len",         value: 5 }
+
+- node:
+    pkg:  "lqg_control"
+    exec: "lqg_4wheel_node"
+    output: "screen"
+    namespace: "$(var uuid)"
+    param:
+    -
+      name:   "bias_compensation"
+      value:  "off"
+    -
+      name:   "controller_type"
+      value:  "$(var ctrl_type)"
+    -
+      name:   "chassis_length"
+      value:  0.10
+    -
+      name:   "chassis_width"
+      value:  0.10
+    -
+      name:   "wheel_radius"
+      value:  0.05
+    -
+      name:   "enable_flatness_ff"
+      value:  true
+
+- node:
+    pkg:  "robomaster_handler"
+    exec: "s1_interface"
+    output: "screen"
+    namespace: "$(var uuid)"
+    remap:
+    -
+      from:   "controller_command"    # subscriber topic
+      to:     "wheel_command"         # controller's published topic
+    -
+      from:   "target_rpm"
+      to:     "cmd_wheels"

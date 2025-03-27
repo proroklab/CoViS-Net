@@ -1,0 +1,10 @@
+gdown 1BZVuxlDWQpPY13_-rGjboE4d-sOUXk8k # 0kc5po4ee18_float16_trt_bev.ts
+gdown 1JSO7g5LSdUEGWnQGdiFpMUY9hMPJgWUb # 0kc5po4ee18_float16_trt_msg.ts
+gdown 1pu3TbzmRRPH0dfWecyWo8xEm7iYeoo1W # 0kc5po4ee18_float16_trt_bevdec.ts
+gdown 1veCZPOyV1vpnhTx1xBFQDfx_A12oTzEc # 0kc5po4ee18_float16_trt_enc.ts
+gdown 1xZ_QzZGygxQaQ6IZV6PolhZM5PoBl0-Q # 0kc5po4ee18_float32_trt_post.ts
+
+gdown 1QuDfQI6f8dyvausOK2h-UvD9ll93EXqi # oyu1brtpe18_float32_trt_post.ts
+gdown 1dW8qu1Sg90MGcYVsgsZNjooZb2CQM7kb # oyu1brtpe18_float16_trt_enc.ts
+gdown 1e1OvByM5EjQxmxOaKTkOF0C7w87jeloq # oyu1brtpe18_float16_trt_msg.ts
+
