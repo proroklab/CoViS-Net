@@ -2,7 +2,7 @@
 This directory contains the code for the on-robot evaluation of the CoViS-Net paper.
 
 Prerequisites:
-- A monocular forward facing camera with a field of view of 120 degree with a rectified image is expected. In our experiments, we used the Raspberry Pi HQ camera. We used the OpenCV fisheye module to calibrate and rectify all images.
+- A monocular forward facing camera with a field of view of 120 degree with a rectified image is expected. In our experiments, we used the Raspberry Pi HQ camera. We used the OpenCV fisheye module to calibrate and rectify all images. Our drivers can be found [here](https://github.com/proroklab/cambridge-robomaster/tree/master/cam_driver).
 - For adhoc wireless communication, we use a Netgear A6210 WiFi dongle. Run the adhoc setup script in `./util/adhoc_up.sh` to setup the adhoc network. You should be able to ping the other robots with their local adhoc IP address.
 
 Run the following steps to run the pose control demo:
